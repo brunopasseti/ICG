@@ -4,7 +4,7 @@ function quicksort(A: Array<number>, lo: number, hi: number) {
         quicksort(A, lo, p - 1);
         quicksort(A, p + 1, hi);
     }
-    return a;
+    return A;
 }
 function partition(A: Array<number>, lo: number, hi: number){
     let pivot = A[hi];
