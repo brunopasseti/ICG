@@ -10,13 +10,19 @@ module.exports = {
     mode: 'development',
     devtool: "source-map",
     resolve: {
-        extensions: ['.ts', '.js']
+        extensions: ['.ts']
     },
     module: {
         rules: [
             {
                 test: /\.ts$/,
-                loader: 'ts-loader'
+                loader: 'ts-loader',
+                options: {
+                    configFile: 'tsconfig.webpack.json'
+                },
+                exclude: [
+                    path.resolve(__dirname, '/test/')
+                ]
             }
         ]
     },

@@ -33,6 +33,7 @@ module.exports = {
         "@typescript-eslint/tslint"
     ],
     "rules": {
+        "@typescript-eslint/semi": "error",
         "@typescript-eslint/adjacent-overload-signatures": "error",
         "@typescript-eslint/array-type": [
             "error",

@@ -19,11 +19,11 @@
     "./src/Algorithm.ts",
     "./src/main.ts",
     "./src/Matrix.ts",
-    "./src/Vector.ts"
+    "./src/Vector.ts",
+    "./test/*test.ts"
   ],
   "exclude": [
       "node_modules",
-      "test/*.js",
       ".eslint.js"
   ]
 }

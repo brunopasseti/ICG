@@ -33,7 +33,7 @@
     "test": "jest --coverage",
     "build": "webpack build --progress --mode=production",
     "watch": "webpack --watch",
-    "lint": "eslint -c .eslintrc.js --ext .ts ./src/"
+    "lint": "eslint -c .eslintrc.js --ext .ts"
   },
   "author": "",
   "license": "ISC"
