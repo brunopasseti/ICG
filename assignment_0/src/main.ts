@@ -20,7 +20,10 @@ console.log("v2: ", v2);
 console.log("Dot: ", v1.dot(v2));
 console.log("Angle between v1 and v2;", v1.angle(v2));
 console.log("Cross: ", v1.cross(v2));
-const m1 = new Matrix(v1.asList())
-m1.printAsTable()
-const m2 = new Matrix([[1, 0, 0], [0, 1, 0], [0, 0, 1]])
-m2.printAsTable()
+const m1 = new Matrix(v1.asList());
+m1.printAsTable();
+console.log(m1.isIdentity);
+m1.T.printAsTable();
+const m2 = new Matrix([[1, 0, 0], [0, 1, 0], [0, 0, 1]]);
+m2.printAsTable();
+console.log(m2.isIdentity);
