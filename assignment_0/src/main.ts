@@ -1,6 +1,7 @@
 import { Vector } from "./Vector";
 import { Matrix } from "./Matrix";
 import { quicksort } from "./Algorithm";
+import * as THREE from "three";
 // alert("Hello World") // 1
 
 const a: Array<number> = [];
@@ -27,3 +28,107 @@ m1.T.printAsTable();
 const m2 = new Matrix([[1, 0, 0], [0, 1, 0], [0, 0, 1]]);
 m2.printAsTable();
 console.log(m2.isIdentity);
+
+function createCamera(){
+    const fov = 75;
+    const aspect = 2;  
+    const near = 0.1;
+    const far = 10;
+    let camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
+    camera.position.z = 5;
+
+    return camera;
+}
+
+function createLight(){
+    const color = 0xFFFFFF;
+    const intensity = 1;
+    return new THREE.DirectionalLight(color, intensity);
+}
+
+function createCubo(position, scene, material){
+    const width = 2;
+    const height = 2;
+    const depth = 2;
+
+    const geometry = new THREE.BoxGeometry(width, height, depth);
+    const cubo = new THREE.Mesh(geometry, material);
+
+    scene.add(cubo);
+
+    if(position)
+        cubo.position.x = position;
+
+    // cubo.rotation.x = .5;
+    // cubo.rotation.y = 2;
+
+    return cubo;    
+}
+
+
+const canvas = document.querySelector("#cuboEstatico");
+const renderer = new THREE.WebGLRenderer({canvas});
+
+const cameraEstatico = createCamera();
+
+let light = createLight()
+light.position.set(-1, 1, 3);
+
+const sceneEstatico = new THREE.Scene();
+sceneEstatico.background = new THREE.Color(0x111111);
+sceneEstatico.add(light);
+
+const materialEstatico = new THREE.MeshPhongMaterial({color:0xB1A0F6});
+
+createCubo(null, sceneEstatico, materialEstatico);
+
+renderer.render(sceneEstatico, cameraEstatico);
+
+const canvasEmTempoReal = document.querySelector("#cuboEmTempoReal");
+const rendererEmTempoReal = new THREE.WebGLRenderer({canvas:canvasEmTempoReal});
+
+const cameraEmTempoReal = createCamera();
+
+let lightEmTempoReal = createLight()
+lightEmTempoReal.position.set(2, 1, 5);
+
+const sceneEmTempoReal = new THREE.Scene();
+sceneEmTempoReal.background = new THREE.Color(0x111111);
+sceneEmTempoReal.add(lightEmTempoReal);
+
+const materialEmTempoReal = new THREE.MeshPhongMaterial({color:0xB1A0F6});
+let cubo = createCubo(null, sceneEmTempoReal, materialEmTempoReal);
+
+function moveBox(time){
+    time *= 0.001;
+    
+    // Rotate cube
+    cubo.rotation.x = time;
+    cubo.rotation.y = time;
+
+    rendererEmTempoReal.render(sceneEmTempoReal, cameraEmTempoReal);
+    requestAnimationFrame(moveBox);
+}
+requestAnimationFrame(moveBox);
+
+
+const canvasTresCubos = document.querySelector("#tresCubos");
+const rendererTresCubos = new THREE.WebGLRenderer({canvas:canvasTresCubos});
+
+const cameraTresCubos = createCamera();
+
+let lightTresCubos = createLight()
+lightTresCubos.position.set(-2,1,4);
+
+const sceneTresCubos = new THREE.Scene();
+sceneTresCubos.background = new THREE.Color(0x111111);
+sceneTresCubos.add(lightTresCubos);
+
+let cubos = [
+    createCubo(4, sceneTresCubos, new THREE.MeshNormalMaterial({color:0x0B4F6C})),
+    createCubo(0, sceneTresCubos, new THREE.MeshPhongMaterial({color:0x01BAEF})),
+    createCubo(-4, sceneTresCubos, new THREE.MeshToonMaterial({color:0xB80C09}))
+]
+
+cubos.forEach(cubo => sceneTresCubos.add(cubo));
+rendererTresCubos.render(sceneTresCubos, cameraTresCubos);
