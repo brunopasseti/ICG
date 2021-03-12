@@ -28,7 +28,13 @@ class Matrix{
     public get isLTriangular(): boolean {
         return this._isSquared;
     }
-
+    
+    public get size(): number | Array<number> {
+        if(this.isSquared)
+            return this._data.length;
+        // Return size (row, column)
+        return [this._data.length, this._data[0].length]
+    }
     // Is Identity Matrix
     public get isIdentity(): boolean {
         let isIdentity = true;
@@ -52,12 +58,25 @@ class Matrix{
         return new Matrix(this._data[0].map((x,i) => this._data.map(x => x[i])));
     }
 
-    // TODO:
     public get determinant(): number{
-        return 0;
+        if(this.isSquared){
+            if(this.size == 3){
+                const a = this._data[0][0];
+                const b = this._data[0][1];
+                const c = this._data[0][2];
+                const d = this._data[1][0];
+                const e = this._data[1][1];
+                const f = this._data[1][2];
+                const g = this._data[2][0];
+                const h = this._data[2][1];
+                const i = this._data[2][2];
+                return a*e*i + b*f*g + c*d*h - c*e*g - b*d*i - a*f*h;
+            }
+            throw Error("I only know hhow calculate determinant of 3x3 matrix");
+        }
+        throw Error("The matrix is not squared");
     }
 
-    // TODO:
     private _mulArrayArray(a: Array<Array<number>>, b: Array<Array<number>>): Matrix{
         if(a[0].length != b.length){
             throw Error("Different sizes");
@@ -77,23 +96,18 @@ class Matrix{
                 }
             }
         }
-        let result = new Matrix([...c]);
-        result.printAsTable();
-        // TODO: WARN ESSE RETURN ESTA FUNCIOANDO
-        return new Matrix([...c]);
+        let result = new Matrix(c);
+        return result;
     }
     public mulMatrix(m: Matrix): Matrix{
-        this._mulArrayArray(this._data, m._data);
-        return;
+        return this._mulArrayArray(this._data, m._data);
     }
     public mulVecMatrix(v: Vector): Matrix{
-        this._mulArrayArray(v.asList(), this._data);
-        return;
+        return this._mulArrayArray(v.asList(), this._data);
     }
     
     public mulMatrixVec(v: Vector): Matrix{
-        this._mulArrayArray(this._data, v.asList());
-        return;
+        return this._mulArrayArray(this._data, v.asList());
     }
 
     public toVec(): Vector{
