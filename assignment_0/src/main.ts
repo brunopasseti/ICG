@@ -25,9 +25,11 @@ const m1 = new Matrix(v1.asList());
 m1.printAsTable();
 console.log(m1.isIdentity);
 m1.T.printAsTable();
-const m2 = new Matrix([[1, 0, 0], [0, 1, 0], [0, 0, 1]]);
+const m2 = new Matrix([[1, 2, 3], [4, 5, 6], [7, 8, 9]]);
 m2.printAsTable();
-console.log(m2.isIdentity);
+const m3 = m2.mulMatrixVec(v1);
+// WARN: Calculo ta funcionando mas mulMatrixVec ta retornando "undefined"
+console.log(m3);
 
 function createCamera(){
     const fov = 75;

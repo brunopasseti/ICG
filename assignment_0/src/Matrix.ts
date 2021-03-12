@@ -58,28 +58,49 @@ class Matrix{
     }
 
     // TODO:
-    private _mulArrayArray(a1: Array<Array<number>>, a2: Array<Array<number>>): Matrix{
-        let a3 = a2;
-        a3 = a1;
-        a3.length;
+    private _mulArrayArray(a: Array<Array<number>>, b: Array<Array<number>>): Matrix{
+        if(a[0].length != b.length){
+            throw Error("Different sizes");
+        }
+        let m = a.length;
+        let n = a[0].length;
+        let p = b[0].length;
+        let c = Array<Array<number>>(m);
+        for(let i = 0; i < m; i++){
+            c[i] = Array<number>(p);
+        }
+        for(let i = 0; i < m; i++){
+            for(let j = 0; j < p; j++){
+                c[i][j] = 0;
+                for(let k = 0; k < n; k++){
+                    c[i][j] += a[i][k]*b[k][j];
+                }
+            }
+        }
+        let result = new Matrix([...c]);
+        result.printAsTable();
+        // TODO: WARN ESSE RETURN ESTA FUNCIOANDO
+        return new Matrix([...c]);
+    }
+    public mulMatrix(m: Matrix): Matrix{
+        this._mulArrayArray(this._data, m._data);
         return;
     }
-
-    // TODO:
     public mulVecMatrix(v: Vector): Matrix{
-        v.asList();
+        this._mulArrayArray(v.asList(), this._data);
         return;
     }
-
-    // TODO:
+    
     public mulMatrixVec(v: Vector): Matrix{
-        v.asList();
+        this._mulArrayArray(this._data, v.asList());
         return;
     }
 
-    // TODO:
     public toVec(): Vector{
-        return;
+        if((this._data.length === 3) && (this._data[1].length === 1)){
+            throw Error();
+        }
+        return new Vector(this._data[0][0], this._data[0][1], this._data[0][2]);
     }
 
     public printAsTable(): void {
