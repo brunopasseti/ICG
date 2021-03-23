@@ -2,7 +2,6 @@ import { Vector } from "./Vector";
 import { Matrix } from "./Matrix";
 import { quicksort } from "./Algorithm";
 import * as THREE from "three";
-import { formatDiagnosticsWithColorAndContext } from "typescript";
 
 alert("Hello World") // 1
 const a: Array<number> = [];
