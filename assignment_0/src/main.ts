@@ -2,17 +2,14 @@ import { Vector } from "./Vector";
 import { Matrix } from "./Matrix";
 import { quicksort } from "./Algorithm";
 import * as THREE from "three";
-import { formatDiagnosticsWithColorAndContext } from "typescript";
 
-// alert("Hello World") // 1
-////////////////////////////////////////////////////////////
+alert("Hello World") // 1
 const a: Array<number> = [];
 for(let i = 0; i < 10; i++){
     a.push(Math.floor(Math.random() * (100 - 0)));
 } // 2
 const sorted: Array<number> = quicksort(a, 0, 9);
 console.log(sorted); // 3
-////////////////////////////////////////////////////////////
 const v1 = new Vector(1,2,3);
 const v2 = new Vector(3,2,1);
 v1.add(v2);
@@ -32,7 +29,10 @@ m2.printAsTable();
 const m3 = m2.mulMatrix(m1);
 m3.printAsTable()
 console.log("Det m2: ", m2.determinant);
-////////////////////////////////////////////////////////////
+
+
+
+
 const canvasJS = <HTMLCanvasElement> document.getElementById("canvasDesenhoJS");
 if(canvasJS){
     const ctx = canvasJS.getContext("2d");
