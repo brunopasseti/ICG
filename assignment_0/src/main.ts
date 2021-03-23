@@ -70,7 +70,7 @@ function createLight(){
     return new THREE.DirectionalLight(color, intensity);
 }
 
-function createCubo(position, scene, material){
+function createCubo(position, material){
     const width = 2;
     const height = 2;
     const depth = 2;
@@ -78,13 +78,8 @@ function createCubo(position, scene, material){
     const geometry = new THREE.BoxGeometry(width, height, depth);
     const cubo = new THREE.Mesh(geometry, material);
 
-    scene.add(cubo);
-
     if(position)
         cubo.position.x = position;
-
-    // cubo.rotation.x = .5;
-    // cubo.rotation.y = 2;
 
     return cubo;    
 }
@@ -104,7 +99,7 @@ sceneEstatico.add(light);
 
 const materialEstatico = new THREE.MeshPhongMaterial({color:0xB1A0F6});
 
-createCubo(null, sceneEstatico, materialEstatico);
+sceneEstatico.add(createCubo(null, materialEstatico));
 
 renderer.render(sceneEstatico, cameraEstatico);
 
@@ -121,8 +116,8 @@ sceneEmTempoReal.background = new THREE.Color(0x111111);
 sceneEmTempoReal.add(lightEmTempoReal);
 
 const materialEmTempoReal = new THREE.MeshPhongMaterial({color:0xB1A0F6});
-let cubo = createCubo(null, sceneEmTempoReal, materialEmTempoReal);
-
+let cubo = createCubo(null, materialEmTempoReal);
+sceneEmTempoReal.add(cubo);
 function moveBox(time){
     time *= 0.001;
     
@@ -149,9 +144,9 @@ sceneTresCubos.background = new THREE.Color(0x111111);
 sceneTresCubos.add(lightTresCubos);
 
 let cubos = [
-    createCubo(4, sceneTresCubos, new THREE.MeshNormalMaterial({color:0x0B4F6C})),
-    createCubo(0, sceneTresCubos, new THREE.MeshPhongMaterial({color:0x01BAEF})),
-    createCubo(-4, sceneTresCubos, new THREE.MeshToonMaterial({color:0xB80C09}))
+    createCubo(4, new THREE.MeshNormalMaterial({color:0x0B4F6C})),
+    createCubo(0, new THREE.MeshPhongMaterial({color:0x01BAEF})),
+    createCubo(-4, new THREE.MeshToonMaterial({color:0xB80C09}))
 ]
 
 cubos.forEach(cubo => sceneTresCubos.add(cubo));
