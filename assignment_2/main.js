@@ -128,7 +128,8 @@ let cam_up = new THREE.Vector3(0.0,1.0,0.0);      // vetor Up da câmera.
 
   // ---------- implementar aqui ----------------------------------------------*
   let m_projection = new THREE.Matrix4();
-  const d = 1.0;
+  const phi = 1.618033988749894848204586834365638117720309;
+  const d = 1;
   m_projection.set(1.0, 0.0, 0.0, 0.0,
                    0.0, 1.0, 0.0, 0.0,
                    0.0, 0.0, 1.0, d,
@@ -177,12 +178,9 @@ let cam_up = new THREE.Vector3(0.0,1.0,0.0);      // vetor Up da câmera.
  * Rasterização
  *****************************************************************************/
 // ---------- implementar aqui ----------------------------------------------
-debug(vertices)
 const cube_color = [255,0,0,255]
   for(let edge of edges){
-    console.log(edge)
     let xi = vertices[edge[0]].x, yi = vertices[edge[0]].y;
     let xf = vertices[edge[1]].x, yf = vertices[edge[1]].y;
-    console.log(xi, yi, xf, yf)
     color_buffer.MidPointLineAlgorithm(xi,yi,xf,yf, cube_color, cube_color);
   }
