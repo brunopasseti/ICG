@@ -11,7 +11,7 @@ class Canvas {
     }
   
     putPixel(x, y, color) {
-      this.context.fillStyle = 'rgb(' + color[0] + ',' + color[1] + ',' + color[2] + ')';
+      this.context.fillStyle = 'rgba(' + color[0] + ',' + color[1] + ',' + color[2] + ',' + color[3] + ')';
       this.context.fillRect(x, (this.canvas.height - 1) - y, 1, 1);
     }
 
@@ -44,10 +44,11 @@ class Canvas {
       let signalY = Math.sign((yf - yi));
 
       let x = xi, y = yi;
-      let r = color_i[0], g = color_i[1], b = color_i[2];
+      let r = color_i[0], g = color_i[1], b = color_i[2], a = color_i[3];
       const varR = (color_f[0] - color_i[0])/dx
       const varG = (color_f[1] - color_i[1])/dx
       const varB = (color_f[2] - color_i[2])/dx
+      const varA = (color_f[3] - color_i[3])/dx
 
       this.putPixel(x, y, [r,g,b])
       let count = 0;
@@ -55,6 +56,8 @@ class Canvas {
           r += varR;
           g += varG;
           b += varB;
+          a += varA;
+          
           if(delta <= 0){
               delta+=incr_east;
               if(isAxisChanged)
@@ -67,8 +70,8 @@ class Canvas {
               y += signalY;
           }
 
-          console.log(`putting pixel (${x},${y} with color [${r}, ${g}, ${b}]`);
-          this.putPixel(x,y, [r,g,b])
+          console.log(`putting pixel (${x},${y} with color [${r}, ${g}, ${b}, ${a}]`);
+          this.putPixel(x,y, [r,g,b,a])
           count++;
       }
       
