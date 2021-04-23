@@ -23,36 +23,32 @@ class Canvas {
       return this.canvas.height;
     }
 
-    MidPointLineAlgorithm(xi, yi, xf, yf, color_i, color_f){
-      let dx = Math.abs(xf-xi); 
-      let dy = Math.abs(yf-yi);
+    MidPointLineAlgorithm(x0, y0, x1, y1, color_0, color_1){
+      let dx = Math.abs(x1-x0); 
+      let dy = Math.abs(y1-y0);
 
-      let isAxisChanged = false;
-
-      if(dy > dx){
+      let isAxisChanged = dy > dx;
+      if(isAxisChanged){
         let aux = dx;
         dx = dy;
         dy = aux;
-        isAxisChanged = true;
       }
       
       let delta = 2*dy - dx;
       const incr_east = 2*dy;
       const incr_northwest = 2*(dy - dx);
 
-      let signalX = Math.sign((xf - xi));
-      let signalY = Math.sign((yf - yi));
+      let signalX = Math.sign((x1 - x0));
+      let signalY = Math.sign((y1 - y0));
 
-      let x = xi, y = yi;
-      let r = color_i[0], g = color_i[1], b = color_i[2], a = color_i[3];
-      const varR = (color_f[0] - color_i[0])/dx
-      const varG = (color_f[1] - color_i[1])/dx
-      const varB = (color_f[2] - color_i[2])/dx
-      const varA = (color_f[3] - color_i[3])/dx
-
+      let x = x0, y = y0;
+      let r = color_0[0], g = color_0[1], b = color_0[2], a = color_0[3];
+      const varR = (color_1[0] - color_0[0])/dx;
+      const varG = (color_1[1] - color_0[1])/dx;
+      const varB = (color_1[2] - color_0[2])/dx;
+      const varA = (color_1[3] - color_0[3])/dx;
       this.putPixel(x, y, [r,g,b])
-      let count = 0;
-      while(count < dx){
+      for (let i = 0; i < dx; i++){
           r += varR;
           g += varG;
           b += varB;
@@ -69,13 +65,8 @@ class Canvas {
               x += signalX;
               y += signalY;
           }
-
-          console.log(`putting pixel (${x},${y} with color [${r}, ${g}, ${b}, ${a}]`);
           this.putPixel(x,y, [r,g,b,a])
-          count++;
       }
-      
-      this.putPixel(xf,yf, color_f)
     }
 
     DrawTriangle(x0, y0, x1, y1, x2, y2, color_0, color_1, color_2){
