@@ -85,7 +85,7 @@ let cam_up = new THREE.Vector3(0.0,1.0,0.0);      // vetor Up da câmera.
   let Z_cam = new THREE.Vector3();
   let D = cam_look_at.clone().sub(cam_pos)
   Z_cam = D.clone().negate().normalize();
-  X_cam = X_cam.crossVectors(cam_up,Z_cam).normalize();
+  X_cam = X_cam.crossVectors(cam_up,Z_cam).normalize();       
   Y_cam = Y_cam.crossVectors(Z_cam, X_cam).normalize();
 
   // Construir 'm_bt', a inversa da matriz de base da câmera.
@@ -94,11 +94,8 @@ let cam_up = new THREE.Vector3(0.0,1.0,0.0);      // vetor Up da câmera.
   let m_bt = new THREE.Matrix4();
 
   m_bt.makeBasis(X_cam, Y_cam, Z_cam);
-  m_bt = m_bt.invert()
-  // m_bt.set(X_cam.x, X_cam.y, X_cam.z, 0.0,
-  //          Y_cam.x, Y_cam.y, Y_cam.z, 0.0,
-  //          Z_cam.x, Z_cam.y, Z_cam.z, 0.0,
-  //          0.0, 0.0, 0.0, 1.0);
+  m_bt = m_bt.invert() 
+
 
   // Construir a matriz 'm_t' de translação para tratar os casos em que as
   // origens do espaço do universo e da câmera não coincidem.
@@ -127,8 +124,9 @@ let cam_up = new THREE.Vector3(0.0,1.0,0.0);      // vetor Up da câmera.
  *****************************************************************************/
 
   // ---------- implementar aqui ----------------------------------------------*
-  let m_projection = new THREE.Matrix4();
   const phi = 1.618033988749894848204586834365638117720309;
+  
+  let m_projection = new THREE.Matrix4();
   const d = 1;
   m_projection.set(1.0, 0.0, 0.0, 0.0,
                    0.0, 1.0, 0.0, 0.0,
@@ -137,6 +135,7 @@ let cam_up = new THREE.Vector3(0.0,1.0,0.0);      // vetor Up da câmera.
 
   for (let i = 0; i < 8; ++i)
     vertices[i].applyMatrix4(m_projection);
+  
 
 /******************************************************************************
  * Homogeneizacao (divisao por W): Esp. Recorte --> Esp. Canônico
@@ -152,35 +151,38 @@ let cam_up = new THREE.Vector3(0.0,1.0,0.0);      // vetor Up da câmera.
  *****************************************************************************/
 
   // ---------- implementar aqui ----------------------------------------------
-  let m_viewport = new THREE.Matrix4();
   let width = color_buffer.getWidth();
-  {
-    let s = new THREE.Matrix4()
-    let t = new THREE.Matrix4()
-    s.set(
-      width/2.0, 0.0, 0.0, 0.0,
-      0.0, width/2.0, 0.0, 0.0,
-      0.0, 0.0, 1.0, 0.0,
-      0.0, 0.0, 0.0, 1.0
-    );
-    t.set(
-      1.0, 0.0, 0.0, 1.0,
-      0.0, 1.0, 0.0, 1.0,
-      0.0, 0.0, 1.0, 0.0,
-      0.0, 0.0, 0.0, 1.0
-    );
-    m_viewport = s.multiply(t).clone()
-    for (let i = 0; i < 8; ++i)
-      vertices[i].applyMatrix4(m_viewport);
-  }
+  let s = new THREE.Matrix4()
+  s.set(
+    width/2.0, 0.0, 0.0, 0.0,
+    0.0, width/2.0, 0.0, 0.0,
+    0.0, 0.0, 1.0, 0.0,
+    0.0, 0.0, 0.0, 1.0
+  );
+    
+    
+    
+  let t = new THREE.Matrix4()
+  t.set(
+    1.0, 0.0, 0.0, 1.0,
+    0.0, 1.0, 0.0, 1.0,
+    0.0, 0.0, 1.0, 0.0,
+    0.0, 0.0, 0.0, 1.0
+  );
+  let m_viewport = new THREE.Matrix4();
+  m_viewport = s.multiply(t).clone()
+  for (let i = 0; i < 8; ++i)
+    vertices[i].applyMatrix4(m_viewport);
+  
 
 /******************************************************************************
  * Rasterização
  *****************************************************************************/
 // ---------- implementar aqui ----------------------------------------------
 const cube_color = [255,0,0,255]
-  for(let edge of edges){
-    let xi = vertices[edge[0]].x, yi = vertices[edge[0]].y;
-    let xf = vertices[edge[1]].x, yf = vertices[edge[1]].y;
-    color_buffer.MidPointLineAlgorithm(xi,yi,xf,yf, cube_color, cube_color);
-  }
+
+for(let edge of edges){
+  let xi = vertices[edge[0]].x, yi = vertices[edge[0]].y;
+  let xf = vertices[edge[1]].x, yf = vertices[edge[1]].y;
+  color_buffer.MidPointLineAlgorithm(xi,yi,xf,yf, cube_color, cube_color);
+}
